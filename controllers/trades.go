@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"stock-trades-api/config"
 	"stock-trades-api/models"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,7 +16,7 @@ func CreateTrade(c *gin.Context) {
         return
     }
 
-    trade.Timestamp = time.Now()
+    //trade.Timestamp = time.Now()
 
     config.DB.Create(&trade)
     c.JSON(http.StatusCreated, trade)

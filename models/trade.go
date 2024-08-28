@@ -1,6 +1,29 @@
 package models
 
-import "time"
+import (
+	"encoding/json"
+	"errors"
+	"time"
+)
+type UnixTime struct {
+    time.Time
+}
+
+// UnmarshalJSON overrides the default JSON unmarshaling for UnixTime
+func (u *UnixTime) UnmarshalJSON(b []byte) error {
+    var timestamp int64
+    if err := json.Unmarshal(b, &timestamp); err != nil {
+        return errors.New("invalid timestamp")
+    }
+    u.Time = time.Unix(0, timestamp*int64(time.Millisecond))
+    return nil
+}
+
+// MarshalJSON overrides the default JSON marshaling for UnixTime
+func (u UnixTime) MarshalJSON() ([]byte, error) {
+    return json.Marshal(u.Time.UnixNano() / int64(time.Millisecond))
+}
+
 
 type Trade struct {
     ID        uint      `json:"id" gorm:"primaryKey"`
@@ -9,5 +32,5 @@ type Trade struct {
     Symbol    string    `json:"symbol" binding:"required"`
     Shares    uint      `json:"shares" binding:"required,min=1,max=100"`
     Price     float64   `json:"price" binding:"required"`
-    Timestamp time.Time `json:"timestamp"`
+    Timestamp UnixTime `json:"timestamp"`
 }
