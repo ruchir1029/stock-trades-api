@@ -9,7 +9,7 @@ type UnixTime struct {
     time.Time
 }
 
-// UnmarshalJSON overrides the default JSON unmarshaling for UnixTime
+e
 func (u *UnixTime) UnmarshalJSON(b []byte) error {
     var timestamp int64
     if err := json.Unmarshal(b, &timestamp); err != nil {
@@ -19,7 +19,7 @@ func (u *UnixTime) UnmarshalJSON(b []byte) error {
     return nil
 }
 
-// MarshalJSON overrides the default JSON marshaling for UnixTime
+
 func (u UnixTime) MarshalJSON() ([]byte, error) {
     return json.Marshal(u.Time.UnixNano() / int64(time.Millisecond))
 }
