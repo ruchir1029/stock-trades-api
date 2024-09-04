@@ -43,3 +43,5 @@ CREATE TABLE trades (
     price INT NOT NULL,
     timestamp TIMESTAMPTZ NOT NULL
 );
+
+vinay lol
